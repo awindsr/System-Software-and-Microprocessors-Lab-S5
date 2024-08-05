@@ -268,17 +268,22 @@ void priority(int process[], int burstTime[], int priorityTable[], int numOfProc
 }
 
 void roundRobin(int process[], int burstTime[], int numOfProcess, int timeQuantum) {
-    int remainingBurstTime[numOfProcess];
+    int remainingBurstTime[numOfProcess], k=0;
     int completionTime[numOfProcess]; 
     int currentTime = 0;
     int totalWaitTime = 0, totalTurnAroundTime = 0;
     int waitTime[numOfProcess];
     int turnAroundTime[numOfProcess];
 
+    int timeLog[30];
+   
+
     // Initialize remaining burst time
     for(int i = 0; i < numOfProcess; i++) {
         remainingBurstTime[i] = burstTime[i];
     }
+
+    printf("Gantt Chart\n");
 
     while(1) {
         int done = 1;
@@ -288,10 +293,24 @@ void roundRobin(int process[], int burstTime[], int numOfProcess, int timeQuantu
                 done = 0;
 
                 if(remainingBurstTime[i] > timeQuantum) {
+                    printf("| P%d\t", process[i]);
+                    
                     currentTime += timeQuantum;
+timeLog[k++]=currentTime;
+
+                    
                     remainingBurstTime[i] -= timeQuantum;
                 } else {
+                   printf("| P%d\t", process[i]);
+  
+                     
+
+
+               
+                   
+                  
                     currentTime += remainingBurstTime[i];
+timeLog[k++]=currentTime;
                     completionTime[i] = currentTime;
                     remainingBurstTime[i] = 0;
                 }
@@ -315,7 +334,12 @@ void roundRobin(int process[], int burstTime[], int numOfProcess, int timeQuantu
     
     float avgWaitTime = (float) totalWaitTime / numOfProcess;
     float avgTurnAroundTime = (float) totalTurnAroundTime / numOfProcess;
-
+    
+        printf("\n");
+       printf("0");
+      for(int i=0;i<k; i++){
+             printf("\t%d ", timeLog[i]); 
+    }
     
     printf("\nProcess ID\tBurst Time\tWaiting Time\tTurnaround Time\n");
     for(int i = 0; i < numOfProcess; i++) {
@@ -328,20 +352,7 @@ printf("Total wait time: %d\n", totalWaitTime);
     printf("Total turn around Time: %d\n", totalTurnAroundTime);
 
 
-
-    printf("\nGantt Chart:\n");
-    printf(" ");
-    for(int i = 0; i < numOfProcess; i++) {
-        printf("| P%d ", process[i]);
-    }
-    printf("|\n");
-
-    // Print the timeline
-    printf("0 ");
-    for(int i = 0; i < numOfProcess; i++) {
-        printf("  %d ", completionTime[i]);
-    }
-    printf("\n");
+  
+   
 }
-
 
