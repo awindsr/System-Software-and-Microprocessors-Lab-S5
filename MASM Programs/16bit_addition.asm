@@ -1,0 +1,11 @@
+MOV AX, 1000
+MOV BX, 2000
+ADD AX, BX
+MOV [1500], AX
+HLT
+
+/* OUTPUT
+1500 : 00
+1501 : 30
+*/
+ 
